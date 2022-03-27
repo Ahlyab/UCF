@@ -57,13 +57,13 @@ void get_html(curlpp::Easy& request, std::string& link, std::string& html, std::
 
 void print_array(std::array<std::string, 16>& arr) {
 	for (std::size_t j = 0; j < arr.size(); ++j) {
-		std::cout << "https://" << arr.at(j) << std::endl;
+		std::cout << "https://" << arr.at(j) << std::endl << std::endl;
 	}
 }
 
 void print_array(std::array<std::string, 15>& arr) {
 	for (std::size_t j = 0; j < arr.size(); ++j) {
-		std::cout <<"https://" << arr.at(j) << std::endl;
+		std::cout <<"https://" << arr.at(j) << std::endl << std::endl;
 	}
 }
 
