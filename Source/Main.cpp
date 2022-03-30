@@ -25,16 +25,8 @@ void info() {
 	std::cout << "--------------------------------------------------" << std::endl;
 }
 
-void extract_links(std::string source, std::smatch result, std::regex re, std::array<std::string, 16>& array) {
-	int i = 0;
-	while (std::regex_search(source, result, re)) {
-		array.at(i) = result[1].str();
-		source = result.suffix().str();
-		i += 1;
-	}
-}
-
-void extract_links(std::string source, std::smatch result, std::regex re, std::array<std::string, 15>& array) {
+template<std::size_t T>
+void extract_links(std::string source, std::smatch result, std::regex re, std::array<std::string, T>& array) {
 	int i = 0;
 	while (std::regex_search(source, result, re)) {
 		array.at(i) = result[1].str();
@@ -55,7 +47,7 @@ void get_html(curlpp::Easy& request, std::string& link, std::string& html, std::
 	html = os.str();
 }
 
-template<size_t T>
+template<std::size_t T>
 void print_array(std::array<std::string, T>& arr) {
 	for (std::size_t j = 0; j < arr.size(); ++j) {
 		std::cout << "https://" << arr.at(j) << std::endl << std::endl;
@@ -80,7 +72,6 @@ int main() {
 
 	get_html(request, link, html, os);
 	extract_links(os.str(), res, reg, links);
-	//print_array(links);
 
 	os.clear();
 
@@ -93,7 +84,6 @@ int main() {
 		get_html(request, links[i], html, os);
 	}
 	extract_links(os.str(), res, reg2, links2);
-	//print_array(links2);
 
 	os.clear();
 
