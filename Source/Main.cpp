@@ -15,7 +15,7 @@ void logo() {
 	std::cout << "\t| |   | || |      | (      " << std::endl;
 	std::cout << "\t| (___) || (____/\\| )      " << std::endl;
 	std::cout << "\t(_______)(_______/|/       " << std::endl;
-	std::cout << "\t                    1.0V    " << std::endl;
+	std::cout << "\t                    1.1V    " << std::endl;
 }
 
 void info() {
