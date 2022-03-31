@@ -26,7 +26,7 @@ void info() {
 }
 
 template<std::size_t T>
-void extract_links(std::string source, std::smatch result, std::regex re, std::array<std::string, T>& array) {
+void extract_links(std::string source, std::smatch result, const std::regex& re, std::array<std::string, T>& array) {
 	int i = 0;
 	while (std::regex_search(source, result, re)) {
 		array.at(i) = result[1].str();
@@ -35,12 +35,12 @@ void extract_links(std::string source, std::smatch result, std::regex re, std::a
 	}
 }
 
-std::string extract_link(std::string source, std::smatch result, std::regex re) {
+std::string extract_link(const std::string& source, std::smatch result, const std::regex& re) {
 	std::regex_search(source, result, re);
 	return result[1].str();
 }
 
-void get_html(curlpp::Easy& request, std::string& link, std::string& html, std::ostringstream& os) {
+void get_html(curlpp::Easy& request, const std::string& link, std::string& html, std::ostringstream& os) {
 	request.setOpt(curlpp::Options::Url(link));
 	request.setOpt(new curlpp::options::WriteStream(&os));
 	request.perform();
