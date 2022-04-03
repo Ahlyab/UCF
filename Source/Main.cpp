@@ -81,7 +81,7 @@ int main() {
 	std::array<std::string, 15> links2;
 	std::array<std::string, 15> links3;
 	std::string pattern = "(?:card-header.*=[^])(.*)(:?\")";
-	std::string link = "https://www.discudemy.com/all/3";
+	std::string link = "https://www.discudemy.com/all/1";
 	std::regex reg(pattern, std::regex_constants::icase);
 
 	logo();
