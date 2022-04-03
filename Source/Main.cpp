@@ -5,6 +5,7 @@
 #include <curlpp/Options.hpp>
 #include <regex>
 #include <array>
+#include <vector>
 
 void logo() {
 	std::cout << "\t          _______  _______ " << std::endl;
@@ -53,6 +54,23 @@ void print_array(std::array<std::string, T>& arr) {
 		std::cout << "https://" << arr.at(j) << std::endl << std::endl;
 	}
 }
+template<std::size_t T>
+void verify_links(std::array<std::string, T>& coupons, std::vector<std::string>& verified_coupons) {
+	curlpp::Easy request;
+	std::ostringstream os;
+	std::smatch res;
+	std::string html;
+	for (auto& coupon : coupons) {
+		get_html(request, coupon, html, os);
+		if (html.find("Enroll now") && html.find("Free"))
+			verified_coupons.push_back(coupon);
+	}
+}
+
+void print_vector(std::vector<std::string>& verified_links) {
+	for (std::size_t i = 0; i < verified_links.size(); ++i)
+		std::cout << i + 1 << ". " << "https://" << verified_links.at(i) << std::endl << std::endl;
+}
 
 int main() {
 	curlpp::Easy request;
@@ -63,7 +81,7 @@ int main() {
 	std::array<std::string, 15> links2;
 	std::array<std::string, 15> links3;
 	std::string pattern = "(?:card-header.*=[^])(.*)(:?\")";
-	std::string link = "https://www.discudemy.com/all";
+	std::string link = "https://www.discudemy.com/all/3";
 	std::regex reg(pattern, std::regex_constants::icase);
 
 	logo();
@@ -91,13 +109,19 @@ int main() {
 	std::regex reg3(pattern, std::regex_constants::icase);
 
 	std::cout << "\t[+] Fetching Coupons!" << std::endl;
-	std::cout << "--------------------------------------------------\n" << std::endl;
 
 	for (auto li : links2) {
 		get_html(request, li, html, os);
 	}
 	extract_links(os.str(), res, reg3, links3);
-	print_array(links3);
+
+	std::cout << "\t[+] Verifying Coupons For 100% off!" << std::endl;
+
+	std::vector<std::string> verified_coupons;
+	verify_links(links3, verified_coupons);
+
+	std::cout << "--------------------------------------------------\n" << std::endl;
+	print_vector(verified_coupons);
 
 	std::system("PAUSE");
 }
